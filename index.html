@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bonne Année 2026 — Gamer Princess 🎮✨</title>
+
+<style>
+body{margin:0;color:#fff;font-family:Arial;background:#000;overflow-x:hidden}
+.page-glow{position:fixed;inset:-40px;pointer-events:none;
+background:radial-gradient(circle at 50% 10%,rgba(255,230,180,.25),transparent 55%),
+radial-gradient(circle at 20% 80%,rgba(255,150,255,.18),transparent 50%),
+radial-gradient(circle at 90% 60%,rgba(120,220,255,.18),transparent 55%);
+filter:blur(18px);animation:glow 8s infinite alternate}
+@keyframes glow{from{transform:scale(1)}to{transform:scale(1.08)}}
+.light-wave{position:fixed;left:-40%;top:0;width:80%;height:100%;pointer-events:none;
+background:linear-gradient(115deg,transparent,rgba(255,200,255,.25),transparent);
+filter:blur(18px);animation:wave 7s linear infinite}
+@keyframes wave{from{transform:translateX(-40%)}to{transform:translateX(140%)}}
+.header{padding:14px;text-align:center;font-weight:900;
+background:linear-gradient(135deg,#ffd86b,#ff9ad6);color:#2a0a0a}
+.toolbar{display:flex;justify-content:center;gap:8px;margin:10px}
+.btn{padding:8px 14px;border-radius:20px;border:1px solid #fff4;background:#0007;color:#ffdfff}
+.section{max-width:900px;margin:20px auto;padding:14px;border-radius:18px;
+background:linear-gradient(135deg,#1a1026,#261537);border:1px solid #fff3}
+.game{margin:10px 0;padding:10px;border:1px solid #fff3;border-radius:14px}
+.area{position:relative;height:140px;background:#0008;border-radius:12px;overflow:hidden}
+.player,.obj{position:absolute;width:20px;height:20px;border-radius:6px;background:#ff76ff}
+.score{margin-top:4px;font-size:14px;opacity:.9}
+#poemBox{max-width:860px;margin:20px auto;padding:18px;border-radius:20px;
+background:linear-gradient(135deg,#ffc8ff,#ffeaff);color:#240f22;text-align:center;
+transform:scale(.8);opacity:0;transition:.6s}
+#poemBox.show{transform:scale(1);opacity:1}
+.petal{position:fixed;top:-40px;font-size:22px;animation:fall 6.5s linear forwards}
+@keyframes fall{to{transform:translateY(120vh) rotate(140deg);opacity:0}}
+.spark{position:fixed;width:8px;height:8px;border-radius:50%;pointer-events:none;
+animation:spark .8s forwards}
+@keyframes spark{to{transform:translateY(-40px) scale(0);opacity:0}}
+.ctrl{padding:10px;border-radius:12px;border:1px solid #fff3;background:#0007}
+.controlPad{position:fixed;bottom:20px;left:20px;display:grid;
+grid-template-columns:60px 60px 60px;gap:6px;opacity:.85}
+</style>
+</head>
+
+<body>
+
+<div class="page-glow"></div>
+<div class="light-wave"></div>
+
+<div class="header">🎮 Bonne Année 2026 — Pour ma petite princess gameuse 🌹🌹🌹 ✨</div>
+
+<div class="toolbar">
+<button class="btn" onclick="enterFullScreen()">🖥️ Plein écran</button>
+<button class="btn" id="musicBtn" onclick="toggleMusic()">🔈 Musique : OFF</button>
+<button class="btn" onclick="togglePoem()">💌 Surprise</button>
+</div>
+
+<audio id="music" src="music/song.mp3" preload="auto" playsinline></audio>
+
+<div id="poemBox">
+ <h3>💖 Message pour toi</h3>
+ <p>
+ Tu avances comme une héroïne dans ton propre jeu de la vie.<br>
+ Tu es courageuse, brillante, créative et forte.<br><br>
+ Peu importe les niveaux, les défis ou les boss de la vie —<br>
+ je crois en toi, je suis fier de toi, et je serai toujours là.<br><br>
+ <b>Bonne année, ma championne. Continue de briller 🎮✨</b>
+ </p>
+</div>
+
+<div class="section">
+ <h3>🎯 Mini-jeux</h3>
+
+ <!-- GAME 1 -->
+ <div class="game">
+  <b>1️⃣ Dodge — Esquive les obstacles</b>
+  <div class="area" id="dodge"></div>
+  <div class="score" id="dodgeScore">Score : 0</div>
+  <button class="btn" onclick="startDodge()">▶️ Jouer</button>
+ </div>
+
+ <!-- GAME 2 -->
+ <div class="game">
+  <b>2️⃣ Tap — Clique l’objet</b>
+  <div class="area" id="tap"></div>
+  <div class="score" id="tapScore">Score : 0</div>
+  <button class="btn" onclick="startTap()">▶️ Jouer</button>
+ </div>
+
+ <!-- GAME 3 -->
+ <div class="game">
+  <b>3️⃣ Mémoire — Souviens-toi des lumières</b>
+  <div class="area" id="memo"></div>
+  <div class="score" id="memoScore">Score : 0</div>
+  <button class="btn" onclick="startMemo()">▶️ Jouer</button>
+ </div>
+
+ <!-- GAME 4 -->
+ <div class="game">
+  <b>4️⃣ Hyper-Click — Clique le plus vite possible</b>
+  <div class="area" id="click"></div>
+  <div class="score" id="clickScore">Score : 0</div>
+  <button class="btn" onclick="startClick()">▶️ Jouer</button>
+ </div>
+</div>
+
+<div class="controlPad">
+ <button class="ctrl" data-dir="up">⬆️</button>
+ <div></div>
+ <button class="ctrl" data-dir="down">⬇️</button>
+ <button class="ctrl" data-dir="left">⬅️</button>
+ <button class="ctrl" data-dir="right">➡️</button>
+</div>
+
+<script>
+/* Fullscreen */
+function enterFullScreen(){const e=document.documentElement;(e.requestFullscreen||e.webkitRequestFullscreen).call(e);}
+
+/* Music */
+const music=document.getElementById("music"),musicBtn=document.getElementById("musicBtn");
+let mOn=false;function toggleMusic(){if(!mOn){music.currentTime=0;music.play().catch(()=>{});musicBtn.textContent="🎵 Musique : ON";mOn=true;}else{music.pause();musicBtn.textContent="🔈 Musique : OFF";mOn=false;}}
+
+/* Surprise Poem */
+function togglePoem(){document.getElementById("poemBox").classList.toggle("show");}
+
+/* Touch controls */
+let inputDir=null;
+document.querySelectorAll(".ctrl").forEach(b=>b.onclick=()=>inputDir=b.dataset.dir);
+
+/* Click effects & petals */
+const emojis=["✨","🌹","💖","🪷","🌟"];
+setInterval(()=>{const p=document.createElement("div");p.className="petal";p.textContent=emojis[Math.floor(Math.random()*emojis.length)];p.style.left=Math.random()*100+"vw";p.style.animationDuration=(5+Math.random()*3)+"s";document.body.appendChild(p);setTimeout(()=>p.remove(),8000);},900);
+function burst(x,y){for(let i=0;i<6;i++){const s=document.createElement("div");s.className="spark";s.style.left=x+"px";s.style.top=y+"px";s.style.background=`hsl(${Math.random()*360} 90% 75%)`;document.body.appendChild(s);setTimeout(()=>s.remove(),800);}}
+window.addEventListener("pointerdown",e=>burst(e.clientX,e.clientY));
+
+/************ GAMES ************/
+
+/* Game 1 — Dodge */
+let dScore=0,dRun=false,playerX=80;
+function startDodge(){
+ dScore=0;dRun=true;playerX=80;
+ const a=document.getElementById("dodge");a.innerHTML="";
+ document.getElementById("dodgeScore").textContent="Score : 0";
+ const p=document.createElement("div");p.className="player";p.style.bottom="10px";p.style.left=playerX+"px";a.appendChild(p);
+
+ function move(){if(!dRun)return;
+ if(inputDir==="left")playerX-=8;if(inputDir==="right")playerX+=8;
+ playerX=Math.max(4,220);p.style.left=playerX+"px";requestAnimationFrame(move);}move();
+
+ window.onkeydown=e=>{if(!dRun)return;
+  if(["ArrowLeft","a","A"].includes(e.key))playerX-=10;
+  if(["ArrowRight","d","D"].includes(e.key))playerX+=10;
+  playerX=Math.max(4,220);p.style.left=playerX+"px";};
+
+ function spawn(){if(!dRun)return;
+  const o=document.createElement("div");o.className="obj";
+  o.style.top="-20px";o.style.left=Math.random()*220+"px";a.appendChild(o);
+  let y=-20;const fall=setInterval(()=>{
+    y+=4;o.style.top=y+"px";
+    const ox=parseInt(o.style.left);
+    if(Math.abs(ox-playerX)<20&&y>100){dRun=false;clearInterval(fall);alert("💥 Game Over — "+dScore);}
+    if(y>140){clearInterval(fall);o.remove();dScore++;document.getElementById("dodgeScore").textContent="Score : "+dScore;}
+  },30);setTimeout(spawn,700-Math.min(400,dScore*10));}spawn();
+}
+
+/* Game 2 — Tap */
+let tScore=0,tRun=false;
+function startTap(){
+ tScore=0;tRun=true;
+ const a=document.getElementById("tap");a.innerHTML="";
+ document.getElementById("tapScore").textContent="Score : 0";
+ function round(){if(!tRun)return;
+  const o=document.createElement("div");o.className="obj";
+  o.style.left=Math.random()*220+"px";o.style.top=Math.random()*90+"px";
+  a.innerHTML="";a.appendChild(o);
+  let alive=true;o.onclick=()=>{if(!alive)return;alive=false;tScore++;
+   document.getElementById("tapScore").textContent="Score : "+tScore;round();}
+  setTimeout(()=>{if(alive){tRun=false;alert("⏳ Trop lent — "+tScore)}},900-Math.min(500,tScore*25));}
+ round();
+}
+
+/* Game 3 — Mémoire */
+let mSeq=[],mStep=0,mScore=0,mRun=false,pads=[];
+function startMemo(){
+ const a=document.getElementById("memo");a.innerHTML="";
+ mSeq=[];mScore=0;mRun=true;pads=[];
+ document.getElementById("memoScore").textContent="Score : 0";
+ for(let i=0;i<4;i++){const p=document.createElement("div");p.className="obj";
+  p.style.left=40+i*40+"px";p.style.top="50px";a.appendChild(p);pads.push(p);p.onclick=()=>pick(i);}
+ next();
+}
+function flashSeq(i=0){if(i>=mSeq.length)return;
+ const p=pads[mSeq[i]];p.style.background="#aaffff";
+ setTimeout(()=>{p.style.background="#ff76ff";flashSeq(i+1)},400);}
+function next(){mSeq.push(Math.floor(Math.random()*4));mStep=0;flashSeq();}
+function pick(i){if(!mRun)return;
+ if(i===mSeq[mStep]){mStep++;if(mStep===mSeq.length){mScore++;
+  document.getElementById("memoScore").textContent="Score : "+mScore;setTimeout(next,500);}}
+ else{mRun=false;alert("❌ Faux — "+mScore);}}
+ 
+/* Game 4 — Hyper-Click */
+let cScore=0,cRun=false;
+function startClick(){
+ cScore=0;cRun=true;
+ const a=document.getElementById("click");a.textContent="Clique vite !";
+ document.getElementById("clickScore").textContent="Score : 0";
+ a.onclick=()=>{if(cRun)cScore++,document.getElementById("clickScore").textContent="Score : "+cScore;}
+ setTimeout(()=>{cRun=false;alert("🔥 "+cScore+" clics !");},5000);
+}
+</script>
+
+</body>
+</html>
